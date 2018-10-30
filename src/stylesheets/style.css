@@ -1,0 +1,150 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+/*
+Variable declarations
+ */
+:root {
+	--main-bg-color: #008080;
+	--secondary-bg-color: #ddeae8;
+	--main-text-color: #4a4a4a;
+	--secondary-text-color: #505050;
+}
+
+html,
+body {
+	background-color: #fff;
+	font-size: 1rem;
+	font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+	height: 100vh;
+	width: 100vw;
+	overflow-x: hidden;
+	position: relative;
+}
+
+section {
+	padding: 3rem 1.5rem;
+	/*padding: 5rem 10rem;*/
+	height: 100vh;
+	box-sizing: border-box;
+}
+
+table,
+td,
+th {
+	border: 1px solid #ddd;
+	text-align: left;
+}
+
+table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+th,
+td {
+	padding: 15px;
+}
+
+/*th,
+td {
+	padding: 15px;
+}*/
+
+.container {
+	margin: 0 auto;
+	position: relative;
+	height: 100%;
+	max-width: 80%;
+	max-height: 90%;
+	/*	min-height: 100vh;
+	box-sizing: border-box;*/
+}
+
+.container .update_button {
+	width: 120px;
+	height: 40px;
+	border-radius: 4px;
+	color: #fff;
+	border: none;
+	background: #00ae68;
+	margin-right: 4rem;
+	cursor: pointer;
+	font-size: 14px;
+	outline: 0;
+}
+
+.container .update_button:hover {
+	background: #21825b;
+}
+
+#bar {
+	width: 100%;
+	height: 100%;
+	padding-top: 1.5rem;
+	box-sizing: border-box;
+}
+
+#bar > svg {
+	display: block;
+}
+
+.header {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 80%;
+	margin: 0 auto;
+}
+
+.footer {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 80%;
+	margin: 24px auto 0px;
+}
+
+.title {
+	font-size: 1.5rem;
+	color: #4a4a4a;
+	flex: 3;
+}
+
+.container .meta {
+	margin-top: 2rem;
+	padding: 4rem;
+}
+
+.footer .updated {
+	flex: 1;
+}
+
+#last_updated {
+	color: #006600;
+	font-weight: 500;
+	margin-top: 6px;
+}
+
+#progress {
+	position: fixed;
+	width: 100vw;
+	height: 100vh;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #f1f1f1;
+	opacity: 0.8;
+	display: none;
+}
+
+#progress .content {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+}
