@@ -7,7 +7,7 @@ const staticAssets = [
 	"./src/stylesheets/style.css",
 	"./src/stylesheets/progress.css",
 	"./src/assets/favicon.png",
-	"./src/index.js"
+	"./index.js"
 ];
 
 self.addEventListener("install", async event => {
