@@ -20,16 +20,39 @@
 
 <body>
     <section>
-        <div class="header">
-            <p class="title">Physical infrastructure facilities in Municipality and Corporation schools in Tamil Nadu</p>
-        </div>
         <div class="container">
-            <div id="bar"></div>
-        </div>
-        <div class="footer">
-        	<div class="updated">
-                <p>Last updated at:&nbsp;</p>
-                <p id="last_updated"></p>
+            <header>
+                <p class="title">Physical infrastructure facilities in Municipality and Corporation schools in Tamil Nadu</p>
+            </header>
+            <div class="primary">
+                <div id="PrimaryBar" class="bar_chart">
+                </div>
+            </div>
+            <div class="divider"></div>
+            <div class="flex">
+                <div class="flex-item">
+                    <header>
+                        <p class="subtitle">Number of Schools based on Category</p>
+                    </header>
+                    <div class="category">
+                        <div id="CategoryBar" class="bar_chart"></div>
+                    </div>
+                </div>
+                <div class="flex-item">
+                    <header>
+                        <p class="subtitle">Schools without Restroom (237/457)</p>
+                    </header>
+                    <div class="rr">
+                        <div id="RRBar" class="bar_chart"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="divider"></div> 
+            <div class="footer">
+                <div class="updated">
+                    <p>Last updated at:&nbsp;</p>
+                    <p id="last_updated"></p>
+                </div>
             </div>
         </div>
     </section>

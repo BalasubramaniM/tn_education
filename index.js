@@ -68,15 +68,19 @@ const initChart = data => {
                     ? "-"
                     : val.yearof_establishment,
             medium: val.school_medium,
-            subjects_offered: val.subject_offered,
+            subjects_offered:
+                val.subject_offered === "NULL" ? "-" : val.subject_offered,
             pincode: val.pincode,
             differently_abled: val.number_of_differently_abled_student,
-            staffCount: val.number_of_staff,
+            staffCount: Number(val.number_of_staff),
             number_of_classrooms: val.number_of_classrooms,
-            availabilty_of_playground: val.availabilty_of_playground,
+            availabilty_of_playground:
+                val.availabilty_of_playground === "NULL"
+                    ? "-"
+                    : val.availabilty_of_playground,
             availabilty_of_eateries: val.availabilty_of_eateries,
             availabilty_of_hospital: val.availabilty_of_hospital,
-            number_of_restrooms: val.number_of_restrooms
+            number_of_restrooms: Number(val.number_of_restrooms)
         };
     });
 
@@ -144,8 +148,119 @@ const initChart = data => {
         ]
     });
 
-    chart.renderTo("#bar");
+    chart.renderTo("#PrimaryBar");
+
+    initCategoryChart(mapData);
+    initRRChart(mapData);
     hideProgress();
+};
+
+const groupBy = (objectArray, property) => {
+    return objectArray.reduce(function(acc, obj) {
+        var key = obj[property];
+        if (!acc[key]) {
+            acc[key] = [];
+        }
+        acc[key].push(obj);
+        return acc;
+    }, {});
+};
+
+const initRRChart = data => {
+    let mapData = data.filter(val => val.number_of_restrooms === 0).map(val => {
+        return {
+            school_name: val.school_name,
+            district: val.district,
+            staffCount: val.staffCount,
+            studentsCount: val.studentsCount,
+            differently_abled: val.differently_abled
+        };
+    });
+
+    // Chart init.
+    let chart = new Taucharts.Chart({
+        type: "scatterplot",
+        x: "district",
+        y: "studentsCount",
+        color: "district",
+        data: mapData,
+        settings: {
+            renderingTimeout: 1000
+        },
+        plugins: [
+            Taucharts.api.plugins.get("tooltip")({
+                formatters: {
+                    school_name: {
+                        label: "School Name"
+                    },
+                    district: {
+                        label: "District"
+                    },
+                    staffCount: {
+                        label: "Number of Staffs"
+                    },
+                    studentsCount: {
+                        label: "Number of Students"
+                    },
+                    differently_abled: {
+                        label: "Number of Differently Abled Students"
+                    }
+                }
+            }),
+            Taucharts.api.plugins.get("legend")()
+        ]
+    });
+
+    chart.renderTo("#RRBar");
+};
+
+const initCategoryChart = data => {
+    let mapObj = groupBy(data, "category");
+
+    let mapData = [];
+
+    for (let key in mapObj) {
+        let obj = {
+            category: key,
+            schoolCount: mapObj[key].length,
+            studentsCount: mapObj[key].reduce((a, b) => a + b.studentsCount, 0),
+            staffCount: mapObj[key].reduce((a, b) => a + b.staffCount, 0)
+        };
+        mapData.push(obj);
+    }
+
+    // Chart init.
+    let chart = new Taucharts.Chart({
+        type: "bar",
+        x: "category",
+        y: "schoolCount",
+        color: "category",
+        data: mapData,
+        settings: {
+            renderingTimeout: 1000
+        },
+        plugins: [
+            Taucharts.api.plugins.get("tooltip")({
+                formatters: {
+                    schoolCount: {
+                        label: "Schools"
+                    },
+                    studentsCount: {
+                        label: "Students"
+                    },
+                    staffCount: {
+                        label: "Staffs"
+                    },
+                    category: {
+                        label: "Category"
+                    }
+                }
+            }),
+            Taucharts.api.plugins.get("legend")()
+        ]
+    });
+
+    chart.renderTo("#CategoryBar");
 };
 
 /**
@@ -154,11 +269,11 @@ const initChart = data => {
 window.addEventListener("load", async e => {
     await init();
 
-    if ("serviceWorker" in navigator) {
-        try {
-            navigator.serviceWorker.register("sw.js");
-        } catch (err) {
-            console.log(err);
-        }
-    }
+    // if ("serviceWorker" in navigator) {
+    //     try {
+    //         navigator.serviceWorker.register("sw.js");
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // }
 });
