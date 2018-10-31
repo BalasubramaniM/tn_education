@@ -1,0 +1,95 @@
+/* 
+  ##Device = Most of the Smartphones Mobiles (Portrait)
+  ##Screen = 320px to 479px
+*/
+
+@media (min-width: 320px) and (max-width: 480px) {
+	.flex {
+		flex-direction: column;
+	}
+	section {
+		padding: 1rem;
+	}
+	.vdivider {
+		position: relative;
+		border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+		margin: 24px auto;
+		width: 100%;
+		height: 0vh;
+	}
+	.tau-chart__layout__sidebar-right {
+		display: none;
+	}
+}
+
+/* 
+  ##Device = Low Resolution Tablets, Mobiles (Landscape)
+  ##Screen = 481px to 767px
+*/
+
+@media (min-width: 481px) and (max-width: 767px) {
+	.flex {
+		flex-direction: column;
+	}
+	section {
+		padding: 1rem;
+	}
+	.vdivider {
+		position: relative;
+		border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+		margin: 24px auto;
+		width: 100%;
+		height: 0vh;
+	}
+	.tau-chart__layout__sidebar-right {
+		display: none;
+	}
+}
+
+/* 
+  ##Device = Tablets, Ipads (portrait)
+  ##Screen = 768px to 1024px
+*/
+
+@media (min-width: 768px) and (max-width: 1356px) {
+	.flex {
+		flex-direction: column;
+	}
+	section {
+		padding: 2rem;
+	}
+	.vdivider {
+		position: relative;
+		border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+		margin: 24px auto;
+		width: 100%;
+		height: 0vh;
+	}
+	.tau-chart__layout__sidebar-right {
+		display: block;
+	}
+}
+
+@media (min-width: 1357px) and (max-width: 1800px) {
+	.flex {
+		flex-direction: column;
+	}
+	.vdivider {
+		position: relative;
+		border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+		margin: 24px auto;
+		width: 100%;
+		height: 0vh;
+	}
+	.tau-chart__layout__sidebar-right {
+		display: block;
+	}
+}
+
+/* 
+  ##Device = iMac etc.,
+  ##Screen = 1472px and above.
+*/
+
+@media (min-width: 1801px) {
+}

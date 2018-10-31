@@ -20,10 +20,12 @@ body {
 	font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 	overflow-x: hidden;
 	position: relative;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
 }
 
 section {
-	padding: 3rem 1.5rem;
+	padding: 3rem;
 	box-sizing: border-box;
 }
 
@@ -31,12 +33,20 @@ section {
 	position: relative;
 	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
 	margin: 24px auto;
+	width: 100%;
+}
+
+.vdivider {
+	position: relative;
+	border-right: 1px solid rgba(0, 0, 0, 0.15);
+	margin: auto 24px;
+	height: 40vh;
 }
 
 .container {
 	margin: 0 auto;
 	position: relative;
-	max-width: 80%;
+	max-width: 100%;
 }
 
 #bar {
@@ -51,7 +61,7 @@ section {
 }
 
 #last_updated {
-	color: #006600;
+	color: #b2182b;
 	font-weight: 500;
 	margin-top: 6px;
 }
