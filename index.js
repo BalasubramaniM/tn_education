@@ -38,6 +38,11 @@ const updateDate = date => {
     document.getElementById("last_updated").innerHTML = updatedDate;
 };
 
+const updateRRTotal = (rr, total) => {
+    let value = `(${rr}/${total})`;
+    document.getElementById("RRTotal").innerHTML = value;
+};
+
 /**
  * Initialization.
  * Fetches data and renders chart.
@@ -167,6 +172,7 @@ const groupBy = (objectArray, property) => {
 };
 
 const initRRChart = data => {
+    let total = data.length;
     let mapData = data.filter(val => val.number_of_restrooms === 0).map(val => {
         return {
             school_name: val.school_name,
@@ -176,6 +182,9 @@ const initRRChart = data => {
             differently_abled: val.differently_abled
         };
     });
+
+    let rr = mapData.length;
+    updateRRTotal(rr, total);
 
     // Chart init.
     let chart = new Taucharts.Chart({
