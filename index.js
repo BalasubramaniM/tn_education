@@ -43,6 +43,17 @@ const updateRRTotal = (rr, total) => {
     document.getElementById("RRTotal").innerHTML = value;
 };
 
+const updateCount = data => {
+    let studentsCount = data.reduce((a, b) => a + b.studentsCount, 0);
+    let staffsCount = data.reduce((a, b) => a + b.staffCount, 0);
+
+    let avgStudCountPerStaff = Math.ceil(studentsCount / staffsCount);
+
+    document.getElementById("StudCount").innerHTML = studentsCount;
+    document.getElementById("StaffCount").innerHTML = staffsCount;
+    document.getElementById("AvgStaffCount").innerHTML = avgStudCountPerStaff;
+};
+
 /**
  * Initialization.
  * Fetches data and renders chart.
@@ -157,6 +168,7 @@ const initChart = data => {
 
     initCategoryChart(mapData);
     initRRChart(mapData);
+    updateCount(mapData);
     hideProgress();
 };
 

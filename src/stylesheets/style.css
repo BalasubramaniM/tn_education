@@ -72,6 +72,7 @@ header {
 
 .flex {
 	display: flex;
+	height: 100%;
 }
 
 .flex-item {
@@ -99,4 +100,27 @@ header {
 .subtitle {
 	font-size: 1.2rem;
 	color: var(--main-text-color);
+}
+
+.nheight {
+	height: 20vh;
+}
+
+.nheight .flex {
+	align-items: center;
+}
+
+.nheight .vdivider {
+	height: 100%;
+}
+
+.numbers {
+	text-align: center;
+	color: var(--main-text-color);
+	padding: 1rem;
+	box-sizing: border-box;
+}
+
+.numbers .count {
+	font-size: 5rem;
 }

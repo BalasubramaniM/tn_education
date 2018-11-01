@@ -20,6 +20,12 @@
 	.tau-chart__layout__sidebar-right {
 		display: none;
 	}
+	.nheight {
+		height: 29vh;
+	}
+	.numbers .count {
+		font-size: 2rem;
+	}
 }
 
 /* 
@@ -43,6 +49,12 @@
 	}
 	.tau-chart__layout__sidebar-right {
 		display: none;
+	}
+	.nheight {
+		height: 29vh;
+	}
+	.numbers .count {
+		font-size: 2rem;
 	}
 }
 
@@ -68,28 +80,14 @@
 	.tau-chart__layout__sidebar-right {
 		display: block;
 	}
-}
-
-@media (min-width: 1357px) and (max-width: 1800px) {
-	.flex {
-		flex-direction: column;
+	.nheight .flex {
+		flex-direction: row;
 	}
-	.vdivider {
-		position: relative;
-		border-bottom: 1px solid rgba(0, 0, 0, 0.15);
-		margin: 24px auto;
-		width: 100%;
-		height: 0vh;
+	.nheight .vdivider {
+		height: 100%;
+		width: 0px;
 	}
-	.tau-chart__layout__sidebar-right {
-		display: block;
+	.numbers .count {
+		font-size: 3rem;
 	}
-}
-
-/* 
-  ##Device = iMac etc.,
-  ##Screen = 1472px and above.
-*/
-
-@media (min-width: 1801px) {
 }
