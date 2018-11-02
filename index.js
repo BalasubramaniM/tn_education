@@ -167,11 +167,11 @@ const initChart = data => {
 
     chart.renderTo("#PrimaryBar");
 
-    initCategoryChart(mapData);
-    initRRChart(mapData);
-    initMediumChart(mapData);
-    initPgChart(mapData);
-    updateCount(mapData);
+    // initCategoryChart(mapData);
+    // initRRChart(mapData);
+    // initMediumChart(mapData);
+    // initPgChart(mapData);
+    // updateCount(mapData);
     hideProgress();
 };
 
@@ -394,11 +394,11 @@ const initPgChart = data => {
 window.addEventListener("load", async e => {
     await init();
 
-    // if ("serviceWorker" in navigator) {
-    //     try {
-    //         navigator.serviceWorker.register("sw.js");
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
-    // }
+    if ("serviceWorker" in navigator) {
+        try {
+            navigator.serviceWorker.register("sw.js");
+        } catch (err) {
+            console.log(err);
+        }
+    }
 });
