@@ -42,6 +42,31 @@ nav {
 	box-sizing: border-box;
 }
 
+nav .navbar {
+	display: flex;
+}
+
+nav .navbar .heading,
+nav .navbar .select {
+	flex: 1;
+}
+
+nav .navbar .select {
+	max-width: 360px;
+	height: 38px;
+}
+
+select {
+	font-size: 1rem;
+	padding: 6px 20px;
+	border: 1px solid #ddd;
+	color: var(--main-text-color);
+	outline: none;
+	box-sizing: border-box;
+	width: 100%;
+	height: 100%;
+}
+
 section {
 	padding: 1rem 3rem;
 	box-sizing: border-box;
@@ -64,9 +89,9 @@ section {
 }
 
 .container {
-	height: 100%;
 	display: flex;
 	flex-direction: column;
+	height: 100%;
 }
 
 #bar {
@@ -98,6 +123,7 @@ footer .last_updated {
 
 .primary {
 	flex: 1;
+	height: 100%;
 }
 
 .category,
