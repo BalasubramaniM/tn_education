@@ -21,7 +21,19 @@
 
 <body>
     <nav>
-        <p class="title">Physical infrastructure facilities in Municipality and Corporation schools in Tamil Nadu</p>
+        <div class="navbar">
+            <div class="heading">
+                <p class="title">Physical infrastructure facilities in Municipality and Corporation schools in Tamil Nadu</p>
+            </div>
+            <div class="select" value="Select">
+                <select onchange="onSelect(this.value)">
+                    <option value="1">Physical infrastructure facilities in Municipality and Corporation schools in Tamil Nadu</option>
+                    <option value="2">Schools based on Category</option>
+                    <option value="3">Schools without Restroom</option>
+                    <option value="4">Schools based on Medium</option>
+                </select>
+            </div>
+        </div>
     </nav>
     <section>
         <div class="container">
@@ -30,7 +42,6 @@
                 </div>
             </div>
             <div class="divider"></div>
-        </div>
     </section>
     <footer>
         <div>

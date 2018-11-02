@@ -54,6 +54,9 @@ const updateCount = data => {
     document.getElementById("AvgStaffCount").innerHTML = avgStudCountPerStaff;
 };
 
+let dataSource,
+    sourceChart = null;
+
 /**
  * Initialization.
  * Fetches data and renders chart.
@@ -64,16 +67,9 @@ async function init() {
         "https://gist.githubusercontent.com/balasubramanim/fc66826974e13e134e33512f9f634d4b/raw"
     );
     const json = await res.json();
-    initChart(json.data);
-    updateDate(json.updatedAt);
-}
+    dataSource = json.data;
 
-/**
- * Chart Initialization.
- * @param  {Array} data [Array of data of Physical infrastructure facilities in Municipality and Corporation schools in Tamil Nadu]
- */
-const initChart = data => {
-    let mapData = data.map(val => {
+    dataSource = dataSource.map(val => {
         return {
             studentsCount: Number(val.number_of_students),
             school_name: val.school_name,
@@ -100,79 +96,100 @@ const initChart = data => {
         };
     });
 
-    // Chart init.
-    let chart = new Taucharts.Chart({
-        type: "scatterplot",
-        x: "district",
-        y: "studentsCount",
-        color: "district",
-        data: mapData,
-        size: "studentsCount",
-        settings: {
-            renderingTimeout: 1000
-        },
-        plugins: [
-            Taucharts.api.plugins.get("tooltip")({
-                formatters: {
-                    studentsCount: {
-                        label: "Number of Students"
-                    },
-                    district: {
-                        label: "District"
-                    },
-                    category: {
-                        label: "Category of School"
-                    },
-                    establishment: {
-                        label: "Year of Establishment"
-                    },
-                    subjects_offered: {
-                        label: "Subjects Offered"
-                    },
-                    medium: {
-                        label: "School Medium"
-                    },
-                    school_name: {
-                        label: "School Name"
-                    },
-                    pincode: {
-                        label: "Pincode"
-                    },
-                    differently_abled: {
-                        label: "Number of Differently Abled Students"
-                    },
-                    staffCount: {
-                        label: "Number of Staffs"
-                    },
-                    number_of_classrooms: {
-                        label: "Number of Classrooms"
-                    },
-                    availabilty_of_playground: {
-                        label: "Availability of Playground"
-                    },
-                    availabilty_of_eateries: {
-                        label: "Availability of Eateries"
-                    },
-                    availabilty_of_hospital: {
-                        label: "Availability of Hospital"
-                    },
-                    number_of_restrooms: {
-                        label: "Number of Restrooms"
-                    }
-                }
-            }),
-            Taucharts.api.plugins.get("legend")()
-        ]
+    onSelect(1);
+    updateDate(json.updatedAt);
+}
+
+const getChart = value => {};
+
+/**
+ * Chart Initialization.
+ * @param  {Array} data [Array of data of Physical infrastructure facilities in Municipality and Corporation schools in Tamil Nadu]
+ */
+const initChart = () => {
+    return new Promise((resolve, reject) => {
+        try {
+            let chart = new Taucharts.Chart({
+                type: "scatterplot",
+                x: "district",
+                y: "studentsCount",
+                color: "district",
+                data: dataSource,
+                size: "studentsCount",
+                settings: {
+                    renderingTimeout: 1000
+                },
+                plugins: [
+                    Taucharts.api.plugins.get("tooltip")({
+                        formatters: {
+                            studentsCount: {
+                                label: "Number of Students"
+                            },
+                            district: {
+                                label: "District"
+                            },
+                            category: {
+                                label: "Category of School"
+                            },
+                            establishment: {
+                                label: "Year of Establishment"
+                            },
+                            subjects_offered: {
+                                label: "Subjects Offered"
+                            },
+                            medium: {
+                                label: "School Medium"
+                            },
+                            school_name: {
+                                label: "School Name"
+                            },
+                            pincode: {
+                                label: "Pincode"
+                            },
+                            differently_abled: {
+                                label: "Number of Differently Abled Students"
+                            },
+                            staffCount: {
+                                label: "Number of Staffs"
+                            },
+                            number_of_classrooms: {
+                                label: "Number of Classrooms"
+                            },
+                            availabilty_of_playground: {
+                                label: "Availability of Playground"
+                            },
+                            availabilty_of_eateries: {
+                                label: "Availability of Eateries"
+                            },
+                            availabilty_of_hospital: {
+                                label: "Availability of Hospital"
+                            },
+                            number_of_restrooms: {
+                                label: "Number of Restrooms"
+                            }
+                        }
+                    }),
+                    Taucharts.api.plugins.get("legend")()
+                ]
+            });
+            resolve(chart);
+        } catch {
+            reject("Failed to initialize Chart!");
+        }
     });
 
-    chart.renderTo("#PrimaryBar");
+    // document.getElementById("PrimaryBar").innerHTML = "";
+    // chart.renderTo("#PrimaryBar");
+    // hideProgress();
+
+    // chart.renderTo("#PrimaryBar");
 
     // initCategoryChart(mapData);
     // initRRChart(mapData);
     // initMediumChart(mapData);
     // initPgChart(mapData);
     // updateCount(mapData);
-    hideProgress();
+    // hideProgress();
 };
 
 const groupBy = (objectArray, property) => {
@@ -186,60 +203,66 @@ const groupBy = (objectArray, property) => {
     }, {});
 };
 
-const initRRChart = data => {
-    let total = data.length;
-    let mapData = data.filter(val => val.number_of_restrooms === 0).map(val => {
-        return {
-            school_name: val.school_name,
-            district: val.district,
-            staffCount: val.staffCount,
-            studentsCount: val.studentsCount,
-            differently_abled: val.differently_abled
-        };
-    });
+const initRRChart = () => {
+    let total = dataSource.length;
+    let mapData = dataSource
+        .filter(val => val.number_of_restrooms === 0)
+        .map(val => {
+            return {
+                school_name: val.school_name,
+                district: val.district,
+                staffCount: val.staffCount,
+                studentsCount: val.studentsCount,
+                differently_abled: val.differently_abled
+            };
+        });
 
     let rr = mapData.length;
-    updateRRTotal(rr, total);
+    // updateRRTotal(rr, total);
 
-    // Chart init.
-    let chart = new Taucharts.Chart({
-        type: "scatterplot",
-        x: "district",
-        y: "studentsCount",
-        color: "district",
-        data: mapData,
-        settings: {
-            renderingTimeout: 1000
-        },
-        plugins: [
-            Taucharts.api.plugins.get("tooltip")({
-                formatters: {
-                    school_name: {
-                        label: "School Name"
-                    },
-                    district: {
-                        label: "District"
-                    },
-                    staffCount: {
-                        label: "Number of Staffs"
-                    },
-                    studentsCount: {
-                        label: "Number of Students"
-                    },
-                    differently_abled: {
-                        label: "Number of Differently Abled Students"
-                    }
-                }
-            }),
-            Taucharts.api.plugins.get("legend")()
-        ]
+    return new Promise((resolve, reject) => {
+        try {
+            let chart = new Taucharts.Chart({
+                type: "scatterplot",
+                x: "district",
+                y: "studentsCount",
+                color: "district",
+                data: mapData,
+                settings: {
+                    renderingTimeout: 1000
+                },
+                plugins: [
+                    Taucharts.api.plugins.get("tooltip")({
+                        formatters: {
+                            school_name: {
+                                label: "School Name"
+                            },
+                            district: {
+                                label: "District"
+                            },
+                            staffCount: {
+                                label: "Number of Staffs"
+                            },
+                            studentsCount: {
+                                label: "Number of Students"
+                            },
+                            differently_abled: {
+                                label: "Number of Differently Abled Students"
+                            }
+                        }
+                    }),
+                    Taucharts.api.plugins.get("legend")()
+                ]
+            });
+            resolve(chart);
+        } catch {
+            reject("Failed to initialize Chart!");
+        }
     });
-
-    chart.renderTo("#RRBar");
 };
 
-const initCategoryChart = data => {
-    let mapObj = groupBy(data, "category");
+const initCategoryChart = () => {
+    let mapObj = groupBy(dataSource, "category");
 
     let mapData = [];
 
@@ -252,43 +275,50 @@ const initCategoryChart = data => {
         };
         mapData.push(obj);
     }
-
-    // Chart init.
-    let chart = new Taucharts.Chart({
-        type: "bar",
-        x: "category",
-        y: "schoolCount",
-        color: "category",
-        data: mapData,
-        settings: {
-            renderingTimeout: 1000
-        },
-        plugins: [
-            Taucharts.api.plugins.get("tooltip")({
-                formatters: {
-                    schoolCount: {
-                        label: "Schools"
-                    },
-                    studentsCount: {
-                        label: "Students"
-                    },
-                    staffCount: {
-                        label: "Staffs"
-                    },
-                    category: {
-                        label: "Category"
-                    }
-                }
-            }),
-            Taucharts.api.plugins.get("legend")()
-        ]
+    return new Promise((resolve, reject) => {
+        try {
+            let chart = new Taucharts.Chart({
+                type: "bar",
+                x: "category",
+                y: "schoolCount",
+                color: "category",
+                data: mapData,
+                settings: {
+                    renderingTimeout: 1000
+                },
+                plugins: [
+                    Taucharts.api.plugins.get("tooltip")({
+                        formatters: {
+                            schoolCount: {
+                                label: "Schools"
+                            },
+                            studentsCount: {
+                                label: "Students"
+                            },
+                            staffCount: {
+                                label: "Staffs"
+                            },
+                            category: {
+                                label: "Category"
+                            }
+                        }
+                    }),
+                    Taucharts.api.plugins.get("legend")()
+                ]
+            });
+            resolve(chart);
+        } catch {
+            reject("Failed to initialize Chart!");
+        }
     });
 
-    chart.renderTo("#CategoryBar");
+    // document.getElementById("PrimaryBar").innerHTML = "";
+    // chart.renderTo("#CategoryBar");
+    // hideProgress();
 };
 
-const initMediumChart = data => {
-    let mapObj = groupBy(data, "medium");
+const initMediumChart = () => {
+    let mapObj = groupBy(dataSource, "medium");
 
     let mapData = [];
 
@@ -301,37 +331,77 @@ const initMediumChart = data => {
         mapData.push(obj);
     }
 
-    // Chart init.
-    let chart = new Taucharts.Chart({
-        type: "bar",
-        x: "medium",
-        y: "schoolCount",
-        color: "medium",
-        data: mapData,
-        settings: {
-            renderingTimeout: 1000
-        },
-        plugins: [
-            Taucharts.api.plugins.get("tooltip")({
-                formatters: {
-                    schoolCount: {
-                        label: "Schools"
-                    },
-                    studentsCount: {
-                        label: "Students"
-                    },
-                    medium: {
-                        label: "Medium"
-                    }
-                }
-            }),
-            Taucharts.api.plugins.get("legend")()
-        ]
+    return new Promise((resolve, reject) => {
+        try {
+            let chart = new Taucharts.Chart({
+                type: "bar",
+                x: "medium",
+                y: "schoolCount",
+                color: "medium",
+                data: mapData,
+                settings: {
+                    renderingTimeout: 1000
+                },
+                plugins: [
+                    Taucharts.api.plugins.get("tooltip")({
+                        formatters: {
+                            schoolCount: {
+                                label: "Schools"
+                            },
+                            studentsCount: {
+                                label: "Students"
+                            },
+                            medium: {
+                                label: "Medium"
+                            }
+                        }
+                    }),
+                    Taucharts.api.plugins.get("legend")()
+                ]
+            });
+            resolve(chart);
+        } catch {
+            reject("Failed to initialize Chart!");
+        }
     });
-
-    chart.renderTo("#MediumBar");
 };
 
+const onSelect = value => {
+    showProgress();
+
+    if (sourceChart !== null) {
+        sourceChart.destroy();
+    }
+
+    let selectedVal = Number(value);
+    let chartObj;
+
+    switch (selectedVal) {
+        case 1:
+            chartObj = initChart();
+            break;
+        case 2:
+            chartObj = initCategoryChart();
+            break;
+        case 3:
+            chartObj = initRRChart();
+            break;
+        case 4:
+            chartObj = initMediumChart();
+            break;
+        default:
+            chartObj = initChart();
+    }
+
+    chartObj
+        .then(chart => {
+            document.getElementById("PrimaryBar").innerHTML = "";
+            chart.renderTo("#PrimaryBar");
+            sourceChart = chart;
+            hideProgress();
+        })
+        .catch(err => console.error(err));
+};
 const initPgChart = data => {
     let mapData = data.map(val => {
         return {
