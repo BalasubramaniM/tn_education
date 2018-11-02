@@ -1,10 +1,9 @@
 {
   "name": "Physical infrastructure facilities in Municipality and Corporation schools in Tamil Nadu",
-  "short_name": "TN Education Infrastructure",
+  "short_name": "TN Education",
   "theme_color": "#2196f3",
   "background_color": "#2196f3",
   "display": "standalone",
-  "orientation": "landscape",
   "Scope": "/",
   "start_url": "/index.html",
   "icons": [

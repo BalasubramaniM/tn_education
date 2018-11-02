@@ -6,6 +6,7 @@ const staticAssets = [
 	"./",
 	"./src/stylesheets/style.css",
 	"./src/stylesheets/progress.css",
+	"./src/stylesheets/responsive.css",
 	"./src/assets/favicon.png",
 	"./index.js"
 ];
