@@ -67,6 +67,10 @@ select {
 	height: 100%;
 }
 
+.lang {
+	padding-left: 1rem;
+}
+
 section {
 	padding: 1rem 3rem;
 	box-sizing: border-box;

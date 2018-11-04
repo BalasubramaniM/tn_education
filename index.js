@@ -3,21 +3,9 @@
  */
 "use strict";
 
-/**
- * @param  {String}     url         [Url to request]
- * @param  {[type]}     method      [Type of Ajax request]
- * @param  {Function}   callback    [Callback function to call]
- */
-const asyncAjax = url => {
-    return new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-
-        xhr.open("GET", url);
-        xhr.onload = () => resolve(xhr.responseText);
-        xhr.onerror = () => reject(xhr.statusText);
-        xhr.send();
-    });
-};
+let dataSource,
+    lang,
+    sourceChart = null;
 
 /**
  * Show Progress
@@ -54,8 +42,32 @@ const updateCount = data => {
     document.getElementById("AvgStaffCount").innerHTML = avgStudCountPerStaff;
 };
 
-let dataSource,
-    sourceChart = null;
+const updateAppTitle = value => {
+    document.getElementById("AppTitle").innerHTML = value;
+};
+
+const updateLocalization = () => {
+    $("body").i18n();
+};
+
+const initLocalization = () => {
+    lang = localStorage.getItem("locale");
+
+    lang = lang ? lang : "en";
+    document.getElementById("Language").value = lang;
+
+    $.i18n()
+        .load({
+            en: "src/i18n/en.json",
+            ta: "src/i18n/ta.json"
+        })
+        .done(() => {
+            $.i18n({
+                locale: lang
+            });
+            localStorage.setItem("locale", lang);
+        });
+};
 
 /**
  * Initialization.
@@ -71,33 +83,40 @@ async function init() {
 
     dataSource = dataSource.map(val => {
         return {
-            studentsCount: Number(val.number_of_students),
-            school_name: val.school_name,
-            district: val.district,
-            category: val.category_of_school,
-            establishment:
+            [$.i18n("Number of Students")]: Number(val.number_of_students),
+            [$.i18n("School Name")]: val.school_name,
+            [$.i18n("District")]: $.i18n(val.district),
+            [$.i18n("Category of School")]: $.i18n(val.category_of_school),
+            [$.i18n("Year of Establishment")]:
                 val.yearof_establishment === "NULL"
                     ? "-"
                     : val.yearof_establishment,
-            medium: val.school_medium,
-            subjects_offered:
+            [$.i18n("School Medium")]: $.i18n(val.school_medium),
+            [$.i18n("Subjects Offered")]:
                 val.subject_offered === "NULL" ? "-" : val.subject_offered,
-            pincode: val.pincode,
-            differently_abled: val.number_of_differently_abled_student,
-            staffCount: Number(val.number_of_staff),
-            number_of_classrooms: val.number_of_classrooms,
-            availabilty_of_playground:
+            [$.i18n("Pincode")]: val.pincode,
+            [$.i18n(
+                "Number of Differently Abled Students"
+            )]: val.number_of_differently_abled_student,
+            [$.i18n("Number of Staffs")]: Number(val.number_of_staff),
+            [$.i18n("Number of Classrooms")]: val.number_of_classrooms,
+            [$.i18n("Availability of Playground")]:
                 val.availabilty_of_playground === "NULL"
                     ? "-"
-                    : val.availabilty_of_playground,
-            availabilty_of_eateries: val.availabilty_of_eateries,
-            availabilty_of_hospital: val.availabilty_of_hospital,
-            number_of_restrooms: Number(val.number_of_restrooms)
+                    : $.i18n(val.availabilty_of_playground),
+            [$.i18n("Availability of Eateries")]: $.i18n(
+                val.availabilty_of_eateries
+            ),
+            [$.i18n("Availability of Hospital")]: $.i18n(
+                val.availabilty_of_hospital
+            ),
+            [$.i18n("Number of Restrooms")]: Number(val.number_of_restrooms)
         };
     });
 
     onSelect(1);
     updateDate(json.updatedAt);
+    updateLocalization();
 }
 
 const getChart = value => {};
@@ -111,87 +130,32 @@ const initChart = () => {
         try {
             let chart = new Taucharts.Chart({
                 type: "scatterplot",
-                x: "district",
-                y: "studentsCount",
-                color: "district",
+                x: $.i18n("District"),
+                y: $.i18n("Number of Students"),
+                color: $.i18n("District"),
                 data: dataSource,
-                size: "studentsCount",
+                size: $.i18n("Number of Students"),
                 settings: {
                     renderingTimeout: 1000
                 },
                 plugins: [
-                    Taucharts.api.plugins.get("tooltip")({
-                        formatters: {
-                            studentsCount: {
-                                label: "Number of Students"
-                            },
-                            district: {
-                                label: "District"
-                            },
-                            category: {
-                                label: "Category of School"
-                            },
-                            establishment: {
-                                label: "Year of Establishment"
-                            },
-                            subjects_offered: {
-                                label: "Subjects Offered"
-                            },
-                            medium: {
-                                label: "School Medium"
-                            },
-                            school_name: {
-                                label: "School Name"
-                            },
-                            pincode: {
-                                label: "Pincode"
-                            },
-                            differently_abled: {
-                                label: "Number of Differently Abled Students"
-                            },
-                            staffCount: {
-                                label: "Number of Staffs"
-                            },
-                            number_of_classrooms: {
-                                label: "Number of Classrooms"
-                            },
-                            availabilty_of_playground: {
-                                label: "Availability of Playground"
-                            },
-                            availabilty_of_eateries: {
-                                label: "Availability of Eateries"
-                            },
-                            availabilty_of_hospital: {
-                                label: "Availability of Hospital"
-                            },
-                            number_of_restrooms: {
-                                label: "Number of Restrooms"
-                            }
-                        }
-                    }),
+                    Taucharts.api.plugins.get("tooltip")(),
                     Taucharts.api.plugins.get("legend")()
                 ]
             });
             resolve(chart);
-        } catch {
-            reject("Failed to initialize Chart!");
+        } catch (err) {
+            reject(err);
         }
     });
-
-    // document.getElementById("PrimaryBar").innerHTML = "";
-    // chart.renderTo("#PrimaryBar");
-    // hideProgress();
-
-    // chart.renderTo("#PrimaryBar");
-
-    // initCategoryChart(mapData);
-    // initRRChart(mapData);
-    // initMediumChart(mapData);
-    // initPgChart(mapData);
-    // updateCount(mapData);
-    // hideProgress();
 };
 
+/**
+ * GroupBy property
+ * @param  {Array}  objectArray [Array of objects to be grouped.]
+ * @param  {String} property    [Key to group by.]
+ * @return {Object}             [GroupedBy object.]
+ */
 const groupBy = (objectArray, property) => {
     return objectArray.reduce(function(acc, obj) {
         var key = obj[property];
@@ -203,17 +167,25 @@ const groupBy = (objectArray, property) => {
     }, {});
 };
 
+/**
+ * Schools without RestRoom Chart.
+ * @return {Object} [RR Chart - Initialized with X and Y axis.]
+ */
 const initRRChart = () => {
     let total = dataSource.length;
     let mapData = dataSource
-        .filter(val => val.number_of_restrooms === 0)
+        .filter(val => val[$.i18n("Number of Restrooms")] === 0)
         .map(val => {
             return {
-                school_name: val.school_name,
-                district: val.district,
-                staffCount: val.staffCount,
-                studentsCount: val.studentsCount,
-                differently_abled: val.differently_abled
+                [$.i18n("School Name")]: val[$.i18n("School Name")],
+                [$.i18n("District")]: $.i18n(val[$.i18n("District")]),
+                [$.i18n("Number of Staffs")]: val[$.i18n("Number of Staffs")],
+                [$.i18n("Number of Students")]: val[
+                    $.i18n("Number of Students")
+                ],
+                [$.i18n("Number of Differently Abled Students")]: val[
+                    $.i18n("Number of Differently Abled Students")
+                ]
             };
         });
 
@@ -224,54 +196,47 @@ const initRRChart = () => {
         try {
             let chart = new Taucharts.Chart({
                 type: "scatterplot",
-                x: "district",
-                y: "studentsCount",
-                color: "district",
+                x: $.i18n("District"),
+                y: $.i18n("Number of Students"),
+                color: $.i18n("District"),
+                size: $.i18n("Number of Students"),
                 data: mapData,
                 settings: {
                     renderingTimeout: 1000
                 },
                 plugins: [
-                    Taucharts.api.plugins.get("tooltip")({
-                        formatters: {
-                            school_name: {
-                                label: "School Name"
-                            },
-                            district: {
-                                label: "District"
-                            },
-                            staffCount: {
-                                label: "Number of Staffs"
-                            },
-                            studentsCount: {
-                                label: "Number of Students"
-                            },
-                            differently_abled: {
-                                label: "Number of Differently Abled Students"
-                            }
-                        }
-                    }),
+                    Taucharts.api.plugins.get("tooltip")(),
                     Taucharts.api.plugins.get("legend")()
                 ]
             });
             resolve(chart);
-        } catch {
-            reject("Failed to initialize Chart!");
+        } catch (err) {
+            reject(err);
         }
     });
 };
 
+/**
+ * Schools based on Category Chart.
+ * @return {Object} [Categorized schools - Initialized with X and Y axis.]
+ */
 const initCategoryChart = () => {
-    let mapObj = groupBy(dataSource, "category");
+    let mapObj = groupBy(dataSource, $.i18n("Category of School"));
 
     let mapData = [];
 
     for (let key in mapObj) {
         let obj = {
-            category: key,
-            schoolCount: mapObj[key].length,
-            studentsCount: mapObj[key].reduce((a, b) => a + b.studentsCount, 0),
-            staffCount: mapObj[key].reduce((a, b) => a + b.staffCount, 0)
+            [$.i18n("Category of School")]: $.i18n(key),
+            [$.i18n("Number of Schools")]: mapObj[$.i18n(key)].length,
+            [$.i18n("Number of Students")]: mapObj[$.i18n(key)].reduce(
+                (a, b) => a + b[$.i18n("Number of Students")],
+                0
+            ),
+            [$.i18n("Number of Staffs")]: mapObj[$.i18n(key)].reduce(
+                (a, b) => a + b[$.i18n("Number of Staffs")],
+                0
+            )
         };
         mapData.push(obj);
     }
@@ -279,54 +244,46 @@ const initCategoryChart = () => {
         try {
             let chart = new Taucharts.Chart({
                 type: "bar",
-                x: "category",
-                y: "schoolCount",
-                color: "category",
+                x: $.i18n("Category of School"),
+                y: $.i18n("Number of Schools"),
+                color: $.i18n("Category of School"),
                 data: mapData,
                 settings: {
                     renderingTimeout: 1000
                 },
                 plugins: [
-                    Taucharts.api.plugins.get("tooltip")({
-                        formatters: {
-                            schoolCount: {
-                                label: "Schools"
-                            },
-                            studentsCount: {
-                                label: "Students"
-                            },
-                            staffCount: {
-                                label: "Staffs"
-                            },
-                            category: {
-                                label: "Category"
-                            }
-                        }
-                    }),
+                    Taucharts.api.plugins.get("tooltip")(),
                     Taucharts.api.plugins.get("legend")()
                 ]
             });
             resolve(chart);
-        } catch {
-            reject("Failed to initialize Chart!");
+        } catch (err) {
+            reject(err);
         }
     });
-
-    // document.getElementById("PrimaryBar").innerHTML = "";
-    // chart.renderTo("#CategoryBar");
-    // hideProgress();
 };
 
+/**
+ * Schools based on Medium of Instruction Chart.
+ * @return {Object} [Medium of Instruction Chart - Initialized with X and Y axis.]
+ */
 const initMediumChart = () => {
-    let mapObj = groupBy(dataSource, "medium");
+    let mapObj = groupBy(dataSource, $.i18n("School Medium"));
 
     let mapData = [];
 
     for (let key in mapObj) {
         let obj = {
-            medium: key,
-            schoolCount: mapObj[key].length,
-            studentsCount: mapObj[key].reduce((a, b) => a + b.studentsCount, 0)
+            [$.i18n("School Medium")]: $.i18n(key),
+            [$.i18n("Number of Schools")]: mapObj[$.i18n(key)].length,
+            [$.i18n("Number of Students")]: mapObj[$.i18n(key)].reduce(
+                (a, b) => a + b[$.i18n("Number of Students")],
+                0
+            ),
+            [$.i18n("Number of Staffs")]: mapObj[$.i18n(key)].reduce(
+                (a, b) => a + b[$.i18n("Number of Staffs")],
+                0
+            )
         };
         mapData.push(obj);
     }
@@ -335,40 +292,90 @@ const initMediumChart = () => {
         try {
             let chart = new Taucharts.Chart({
                 type: "bar",
-                x: "medium",
-                y: "schoolCount",
-                color: "medium",
+                x: $.i18n("School Medium"),
+                y: $.i18n("Number of Schools"),
+                color: $.i18n("School Medium"),
                 data: mapData,
                 settings: {
                     renderingTimeout: 1000
                 },
                 plugins: [
-                    Taucharts.api.plugins.get("tooltip")({
-                        formatters: {
-                            schoolCount: {
-                                label: "Schools"
-                            },
-                            studentsCount: {
-                                label: "Students"
-                            },
-                            medium: {
-                                label: "Medium"
-                            }
-                        }
-                    }),
+                    Taucharts.api.plugins.get("tooltip")(),
                     Taucharts.api.plugins.get("legend")()
                 ]
             });
             resolve(chart);
-        } catch {
-            reject("Failed to initialize Chart!");
+        } catch (err) {
+            reject(err);
         }
     });
 };
 
+/**
+ * Schools without Playground Chart.
+ * @return {Object} [Playground Chart - Initialized with X and Y axis.]
+ */
+const initPlaygroundChart = data => {
+    let mapData = dataSource.map(val => {
+        return {
+            [$.i18n("School Name")]: val[$.i18n("School Name")],
+            [$.i18n("District")]: $.i18n(val[$.i18n("District")]),
+            [$.i18n("Number of Students")]: val[$.i18n("Number of Students")],
+            [$.i18n("Number of Differently Abled Students")]: val[
+                $.i18n("Number of Differently Abled Students")
+            ],
+            [$.i18n("Availability of Playground")]: val[
+                $.i18n("Availability of Playground")
+            ],
+            [$.i18n("Availability of Eateries")]: val[
+                $.i18n("Availability of Eateries")
+            ],
+            [$.i18n("Availability of Hospital")]: val[
+                $.i18n("Availability of Hospital")
+            ]
+        };
+    });
+
+    return new Promise((resolve, reject) => {
+        try {
+            let chart = new Taucharts.Chart({
+                type: "scatterplot",
+                x: $.i18n("District"),
+                y: $.i18n("Number of Students"),
+                color: $.i18n("Availability of Playground"),
+                data: mapData,
+                settings: {
+                    renderingTimeout: 1000
+                },
+                plugins: [
+                    Taucharts.api.plugins.get("tooltip")(),
+                    Taucharts.api.plugins.get("legend")()
+                ]
+            });
+            resolve(chart);
+        } catch (err) {
+            reject(err);
+        }
+    });
+};
+
+/**
+ * Change Language and reload the page.
+ * @param  {String} language [Language to be set.]
+ */
+const onSelectLang = language => {
+    localStorage.setItem("locale", language);
+    location.reload(true); // Remove Cache
+};
+
+/**
+ * Select various types of Charts.
+ * @param  {String} value [Value of chart to be displayed.]
+ */
 const onSelect = value => {
     showProgress();
 
+    // Destroy previous Chart and its references.
     if (sourceChart !== null) {
         sourceChart.destroy();
     }
@@ -389,6 +396,9 @@ const onSelect = value => {
         case 4:
             chartObj = initMediumChart();
             break;
+        case 5:
+            chartObj = initPlaygroundChart();
+            break;
         default:
             chartObj = initChart();
     }
@@ -401,61 +411,6 @@ const onSelect = value => {
             hideProgress();
         })
         .catch(err => console.error(err));
-};
-const initPgChart = data => {
-    let mapData = data.map(val => {
-        return {
-            school_name: val.school_name,
-            district: val.district,
-            studentsCount: val.studentsCount,
-            differently_abled: val.differently_abled,
-            playground: val.availabilty_of_playground,
-            canteen: val.availabilty_of_eateries,
-            hospital: val.availabilty_of_hospital
-        };
-    });
-
-    // Chart init.
-    let chart = new Taucharts.Chart({
-        type: "line",
-        x: "studentsCount",
-        y: "district",
-        color: "canteen",
-        data: mapData,
-        settings: {
-            renderingTimeout: 1000
-        },
-        plugins: [
-            Taucharts.api.plugins.get("tooltip")({
-                formatters: {
-                    school_name: {
-                        label: "School Name"
-                    },
-                    district: {
-                        label: "District"
-                    },
-                    studentsCount: {
-                        label: "Number of Students"
-                    },
-                    differently_abled: {
-                        label: "Number of Differently Abled Students"
-                    },
-                    playground: {
-                        label: "Playground"
-                    },
-                    canteen: {
-                        label: "Canteen"
-                    },
-                    hospital: {
-                        label: "Hospital"
-                    }
-                }
-            }),
-            Taucharts.api.plugins.get("legend")()
-        ]
-    });
-
-    chart.renderTo("#PGBar");
 };
 
 /**
@@ -472,3 +427,5 @@ window.addEventListener("load", async e => {
         }
     }
 });
+
+initLocalization();
