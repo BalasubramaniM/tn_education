@@ -8,6 +8,8 @@ const staticAssets = [
 	"./src/stylesheets/progress.css",
 	"./src/stylesheets/responsive.css",
 	"./src/assets/favicon.png",
+	"./src/i18n/en.json",
+	"./src/i18n/ta.json",
 	"./index.js"
 ];
 
