@@ -480,13 +480,13 @@ const onSelect = value => {
 window.addEventListener("load", async e => {
     await init();
 
-    // if ("serviceWorker" in navigator) {
-    //     try {
-    //         navigator.serviceWorker.register("sw.js");
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
-    // }
+    if ("serviceWorker" in navigator) {
+        try {
+            navigator.serviceWorker.register("sw.js");
+        } catch (err) {
+            console.log(err);
+        }
+    }
 });
 
 initLocalization();
