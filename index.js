@@ -110,7 +110,11 @@ async function init() {
             [$.i18n("Availability of Hospital")]: $.i18n(
                 val.availabilty_of_hospital
             ),
-            [$.i18n("Number of Restrooms")]: Number(val.number_of_restrooms)
+            [$.i18n("Number of Restrooms")]: Number(val.number_of_restrooms),
+            [$.i18n("Last Updated At")]: new Date(val.modified_date),
+            [$.i18n("Status of the Data")]: $.i18n(
+                val.status_of_the_data_set_collected
+            )
         };
     });
 
@@ -119,7 +123,63 @@ async function init() {
     updateLocalization();
 }
 
-const getChart = value => {};
+const getQuote = value => {
+    let studentsCount = dataSource.reduce(
+        (a, b) => a + b[$.i18n("Number of Students")],
+        0
+    );
+    let staffsCount = dataSource.reduce(
+        (a, b) => a + b[$.i18n("Number of Staffs")],
+        0
+    );
+    let avgStaffCount = Math.ceil(studentsCount / staffsCount);
+
+    let primaryGroup = groupBy(dataSource, $.i18n("Category of School"));
+    let primarySchools = primaryGroup[$.i18n("Primary School")].reduce(
+        (a, b) => a + b[$.i18n("Number of Students")],
+        0
+    );
+
+    let schoolsCount = dataSource.length;
+    let schoolsWithoutRR = dataSource.filter(
+        val => val[$.i18n("Number of Restrooms")] === 0
+    ).length;
+
+    let primaryPercent = Math.ceil((primarySchools / studentsCount) * 100);
+
+    let mediumSchools = dataSource.filter(
+        val => val[$.i18n("School Medium")] === "English"
+    ).length;
+
+    let schoolsWithoutPG = dataSource.filter(
+        val => val[$.i18n("Availability of Playground")] === "No"
+    ).length;
+
+    let quote;
+
+    switch (value) {
+        case 1:
+            quote = `There are totally ${studentsCount} students studying in Govt. Schools in TamilNadu with ${staffsCount} teachers.<br /> Approximately, one teacher takes care of ${avgStaffCount} students.`;
+            break;
+        case 2:
+            quote = `Only Primary schools has more number of Students dominating ${primaryPercent}% when compared with others.`;
+            break;
+        case 3:
+            quote = `There are ${schoolsWithoutRR} schools without Toilets out of ${schoolsCount}.`;
+            break;
+        case 4:
+            quote = `There are only ${mediumSchools} Govt. English Medium schools out of 457 in Tamil Nadu.`;
+            break;
+        case 5:
+            quote = `There are ${schoolsWithoutPG} schools without Playground.`;
+            break;
+        default:
+            quote = `There are totally ${studentsCount} students studying in Govt. Schools in TamilNadu with ${staffsCount} teachers.<br /> Approximately, one teacher takes care of ${avgStaffCount} students.`;
+            break;
+    }
+
+    document.getElementById("DYNQuote").innerHTML = quote;
+};
 
 /**
  * Chart Initialization.
@@ -408,6 +468,7 @@ const onSelect = value => {
             document.getElementById("PrimaryBar").innerHTML = "";
             chart.renderTo("#PrimaryBar");
             sourceChart = chart;
+            getQuote(selectedVal);
             hideProgress();
         })
         .catch(err => console.error(err));
@@ -419,13 +480,13 @@ const onSelect = value => {
 window.addEventListener("load", async e => {
     await init();
 
-    if ("serviceWorker" in navigator) {
-        try {
-            navigator.serviceWorker.register("sw.js");
-        } catch (err) {
-            console.log(err);
-        }
-    }
+    // if ("serviceWorker" in navigator) {
+    //     try {
+    //         navigator.serviceWorker.register("sw.js");
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // }
 });
 
 initLocalization();

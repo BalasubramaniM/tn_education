@@ -167,3 +167,17 @@ footer .last_updated {
 .numbers .count {
 	font-size: 5rem;
 }
+
+footer .content {
+	display: flex;
+	box-sizing: border-box;
+}
+
+footer .didyouknow {
+	flex: 1;
+	padding-right: 1rem;
+}
+
+footer .last_update {
+	/*width: 40%;*/
+}
