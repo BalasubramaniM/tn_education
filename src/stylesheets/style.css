@@ -174,10 +174,5 @@ footer .content {
 }
 
 footer .didyouknow {
-	flex: 1;
 	padding-right: 1rem;
-}
-
-footer .last_update {
-	/*width: 40%;*/
 }
