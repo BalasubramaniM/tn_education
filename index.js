@@ -365,7 +365,7 @@ function TNEducation() {
         locale = value;
     };
 
-    this.getLocale = () => {
+    const getLocale = () => {
         return locale;
     };
 
@@ -435,7 +435,7 @@ function TNEducation() {
 
     const getDYK = () => {
         let quote;
-        let lang = this.getLocale();
+        let lang = getLocale();
         let category = res.getCategory();
         let dataSource = res.getSource();
 
@@ -586,9 +586,7 @@ function TNEducation() {
 var res;
 const init = () => {
     res = new TNEducation();
-
     res.showProgress();
-
     res.fetchSource()
         .then(() => {
             res.init();
@@ -597,7 +595,6 @@ const init = () => {
             res.hideProgress();
         })
         .catch(err => console.error(err));
-
     res.initLocalization();
 };
 
