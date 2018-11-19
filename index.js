@@ -88,8 +88,7 @@ function TNEducation() {
                 [$.i18n("Number of Staffs")]: mapObj[$.i18n(key)].reduce(
                     (a, b) => a + b[$.i18n("Number of Staffs")],
                     0
-                ),
-                [$.i18n("Last Updated At")]: val["Last Updated At"]
+                )
             };
             mapData.push(obj);
         }
@@ -138,7 +137,7 @@ function TNEducation() {
                     [$.i18n("Number of Differently Abled Students")]: val[
                         $.i18n("Number of Differently Abled Students")
                     ],
-                    [$.i18n("Last Updated At")]: val["Last Updated At"]
+                    [$.i18n("Last Updated At")]: val[$.i18n("Last Updated At")]
                 };
             });
 
@@ -172,13 +171,13 @@ function TNEducation() {
      */
     const initMediumChart = () => {
         let dataSource = this.getSource();
-        let mapObj = groupBy(dataSource, $.i18n("School Medium"));
+        let mapObj = groupBy(dataSource, $.i18n("Medium of School"));
 
         let mapData = [];
 
         for (let key in mapObj) {
             let obj = {
-                [$.i18n("School Medium")]: $.i18n(key),
+                [$.i18n("Medium of School")]: $.i18n(key),
                 [$.i18n("Number of Schools")]: mapObj[$.i18n(key)].length,
                 [$.i18n("Number of Students")]: mapObj[$.i18n(key)].reduce(
                     (a, b) => a + b[$.i18n("Number of Students")],
@@ -187,8 +186,7 @@ function TNEducation() {
                 [$.i18n("Number of Staffs")]: mapObj[$.i18n(key)].reduce(
                     (a, b) => a + b[$.i18n("Number of Staffs")],
                     0
-                ),
-                [$.i18n("Last Updated At")]: val["Last Updated At"]
+                )
             };
             mapData.push(obj);
         }
@@ -197,9 +195,9 @@ function TNEducation() {
             try {
                 let chart = new Taucharts.Chart({
                     type: "bar",
-                    x: $.i18n("School Medium"),
+                    x: $.i18n("Medium of School"),
                     y: $.i18n("Number of Schools"),
-                    color: $.i18n("School Medium"),
+                    color: $.i18n("Medium of School"),
                     data: mapData,
                     settings: {
                         renderingTimeout: 1000
@@ -241,7 +239,7 @@ function TNEducation() {
                 [$.i18n("Availability of Hospital")]: val[
                     $.i18n("Availability of Hospital")
                 ],
-                [$.i18n("Last Updated At")]: val["Last Updated At"]
+                [$.i18n("Last Updated At")]: val[$.i18n("Last Updated At")]
             };
         });
 
@@ -288,7 +286,7 @@ function TNEducation() {
                                 val.yearof_establishment === "NULL"
                                     ? "-"
                                     : val.yearof_establishment,
-                            [$.i18n("School Medium")]: $.i18n(
+                            [$.i18n("Medium of School")]: $.i18n(
                                 val.school_medium
                             ),
                             [$.i18n("Subjects Offered")]:
@@ -410,7 +408,7 @@ function TNEducation() {
         let dataSource = this.getSource();
 
         return dataSource.filter(
-            val => val[$.i18n("School Medium")] === $.i18n("English")
+            val => val[$.i18n("Medium of School")] === $.i18n("English")
         );
     };
 
