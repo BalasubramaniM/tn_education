@@ -444,11 +444,11 @@ function TNEducation() {
                 if (lang === "en") {
                     quote = `There are totally ${getStudentsCount()} students studying in ${
                         dataSource.length
-                    } Govt. Schools in TamilNadu with ${getStaffsCount()} teachers.<br /> Approximately, one teacher takes care of ${avgStaffCount()} students.`;
+                    } Govt. Schools in TamilNadu with ${getStaffsCount()} teachers.`;
                 } else {
-                    quote = `${getStaffsCount()} ஆசிரியர்களுடன், மொத்தம் ${getStudentsCount()} மாணவர்கள், தமிழ்நாட்டிலுள்ள ${
+                    quote = `${getStaffsCount()} ஊழியர்களுடன், மொத்தம் ${getStudentsCount()} மாணவர்கள், தமிழ்நாட்டிலுள்ள ${
                         dataSource.length
-                    } அரசாங்க பள்ளிகளில் படிக்கிறார்கள்.<br /> சராசரியாக ஒரு ஆசிரியர் ${avgStaffCount()} மாணவர்களை கவனித்து கொள்கிறார்.`;
+                    } அரசாங்க பள்ளிகளில் படிக்கிறார்கள்.`;
                 }
                 break;
             case 2:

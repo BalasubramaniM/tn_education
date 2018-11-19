@@ -107,10 +107,6 @@ section {
 	display: block;
 }
 
-footer .last_updated {
-	font-weight: 500;
-}
-
 .flex {
 	display: flex;
 }
