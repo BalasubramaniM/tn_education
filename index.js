@@ -303,7 +303,7 @@ function TNEducation() {
                             )]: val.number_of_classrooms,
                             [$.i18n("Availability of Playground")]:
                                 val.availabilty_of_playground === "NULL"
-                                    ? "-"
+                                    ? $.i18n("-")
                                     : $.i18n(val.availabilty_of_playground),
                             [$.i18n("Availability of Eateries")]: $.i18n(
                                 val.availabilty_of_eateries
