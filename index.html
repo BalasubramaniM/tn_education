@@ -33,11 +33,10 @@
 
 <body>
     <nav>
-        <div class="navbar">
-            <div class="heading">
-                <p id="AppTitle" data-i18n="app-title" class="title">Physical infrastructure facilities in Municipality and Corporation schools in Tamil Nadu</p>
-            </div>
+        <p id="AppTitle" data-i18n="app-title" class="title">Physical infrastructure facilities in Municipality and Corporation schools in Tamil Nadu</p>
+        <div class="select-boxes">
             <div class="select">
+                <label data-i18n="Choose a Category:" for="Category">Choose a Category:</label>
                 <select id="Category" onchange="onSelect(this.value)">
                     <option data-i18n="app-title1" value="1">Physical infrastructure facilities in Municipality and Corporation schools</option>
                     <option data-i18n="app-title2" value="2">Schools based on Category</option>
@@ -47,20 +46,17 @@
                 </select>
             </div>
             <div class="select lang">
+                <label data-i18n="Choose a Language:" for="Language">Choose a Language:</label>
                 <select id="Language" onchange="onSelectLang(this.value)">
-                    <option value="en">English</option>
-                    <option value="ta">Tamil</option>
+                    <option data-i18n="English" value="en">English</option>
+                    <option data-i18n="Tamil" value="ta">Tamil</option>
                 </select>
             </div>
         </div>
     </nav>
     <section>
-        <div class="container">
-            <div class="primary">
-                <div id="PrimaryBar" class="bar_chart">
-                </div>
-            </div>
-            
+        <div id="PrimaryBar" class="bar_chart">
+        </div>
     </section>
     <div class="divider"></div>
     <footer>

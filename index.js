@@ -532,7 +532,7 @@ function TNEducation() {
         if (lang) {
             locale = lang;
         }
-        document.getElementById("Language").value = lang;
+        document.getElementById("Language").value = locale;
         $.i18n()
             .load({
                 en: "src/i18n/en.json",
@@ -612,6 +612,7 @@ const onSelect = value => {
  * @param  {String} language [Language to be set.]
  */
 const onSelectLang = language => {
+    res.setLocale(language);
     localStorage.setItem("locale", language);
     location.reload(true); // Remove Cache
 };
@@ -622,11 +623,11 @@ const onSelectLang = language => {
 window.addEventListener("load", async e => {
     await init();
 
-    if ("serviceWorker" in navigator) {
-        try {
-            navigator.serviceWorker.register("sw.js");
-        } catch (err) {
-            console.log(err);
-        }
-    }
+    // if ("serviceWorker" in navigator) {
+    //     try {
+    //         navigator.serviceWorker.register("sw.js");
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // }
 });

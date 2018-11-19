@@ -23,37 +23,41 @@ body {
 	-moz-box-sizing: border-box;
 	height: 100%;
 	width: 100%;
-	display: flex;
 	flex-direction: column;
 	/*background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ece0e0' fill-opacity='0.4' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");*/
 }
 
 footer {
 	color: var(--main-text-color);
-	flex: 0;
 	padding: 0rem 3rem 3rem;
 	box-sizing: border-box;
 }
 
 nav {
 	box-shadow: 0 2px 0 0 #f5f5f5;
-	flex: 0;
-	padding: 2rem 3rem;
+	padding: 1.5rem 3rem;
 	box-sizing: border-box;
-}
-
-nav .navbar {
 	display: flex;
+	align-items: center;
 }
 
-nav .navbar .heading,
-nav .navbar .select {
+nav .title {
 	flex: 1;
 }
 
-nav .navbar .select {
-	max-width: 360px;
+nav .select-boxes {
+	flex: 1;
+	display: flex;
+}
+
+nav select {
 	height: 38px;
+	margin-top: 6px;
+}
+
+nav .select {
+	flex: 1;
+	max-width: 360px;
 }
 
 select {
@@ -74,7 +78,8 @@ select {
 section {
 	padding: 1rem 3rem;
 	box-sizing: border-box;
-	flex: 1;
+	/*height: calc(100vh - 100px);*/
+	height: 80vh;
 }
 
 .divider {
@@ -82,7 +87,6 @@ section {
 	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
 	margin: 24px auto;
 	width: 100%;
-	flex: 0;
 }
 
 .vdivider {
@@ -90,12 +94,6 @@ section {
 	border-right: 1px solid rgba(0, 0, 0, 0.15);
 	margin: auto 24px;
 	height: 40vh;
-}
-
-.container {
-	display: flex;
-	flex-direction: column;
-	height: 100%;
 }
 
 #bar {
@@ -122,11 +120,6 @@ footer .last_updated {
 }
 
 .bar_chart {
-	height: 100%;
-}
-
-.primary {
-	flex: 1;
 	height: 100%;
 }
 
