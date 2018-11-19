@@ -88,7 +88,8 @@ function TNEducation() {
                 [$.i18n("Number of Staffs")]: mapObj[$.i18n(key)].reduce(
                     (a, b) => a + b[$.i18n("Number of Staffs")],
                     0
-                )
+                ),
+                [$.i18n("Last Updated At")]: val["Last Updated At"]
             };
             mapData.push(obj);
         }
@@ -136,7 +137,8 @@ function TNEducation() {
                     ],
                     [$.i18n("Number of Differently Abled Students")]: val[
                         $.i18n("Number of Differently Abled Students")
-                    ]
+                    ],
+                    [$.i18n("Last Updated At")]: val["Last Updated At"]
                 };
             });
 
@@ -185,7 +187,8 @@ function TNEducation() {
                 [$.i18n("Number of Staffs")]: mapObj[$.i18n(key)].reduce(
                     (a, b) => a + b[$.i18n("Number of Staffs")],
                     0
-                )
+                ),
+                [$.i18n("Last Updated At")]: val["Last Updated At"]
             };
             mapData.push(obj);
         }
@@ -237,7 +240,8 @@ function TNEducation() {
                 ],
                 [$.i18n("Availability of Hospital")]: val[
                     $.i18n("Availability of Hospital")
-                ]
+                ],
+                [$.i18n("Last Updated At")]: val["Last Updated At"]
             };
         });
 
