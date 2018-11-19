@@ -8,15 +8,24 @@
 		display: none;
 	}
 
-	nav .navbar {
+	nav {
+		padding: 1rem;
 		flex-direction: column;
+		height: 200px;
+		align-items: unset;
 	}
 
-	nav .navbar .select {
-		box-sizing: border-box;
+	nav .select-boxes {
 		padding-top: 1rem;
-		height: 54px;
-		max-width: 100%;
+		align-items: flex-end;
+	}
+
+	nav .select-boxes .select {
+		max-width: 292px;
+	}
+
+	nav .select-boxes .select:not(:last-child) {
+		margin-right: 1rem;
 	}
 
 	nav {
@@ -57,19 +66,23 @@
 		display: none;
 	}
 
-	nav .navbar {
-		flex-direction: column;
-	}
-
-	nav .navbar .select {
-		box-sizing: border-box;
-		padding-top: 1rem;
-		height: 54px;
-		max-width: 100%;
-	}
-
 	nav {
-		padding: 1rem 1rem;
+		padding: 1rem;
+		flex-direction: column;
+		height: 170px;
+		align-items: unset;
+	}
+
+	nav .select-boxes {
+		padding-top: 1rem;
+	}
+
+	nav .select-boxes .select {
+		max-width: 292px;
+	}
+
+	nav .select-boxes .select:not(:last-child) {
+		margin-right: 1rem;
 	}
 
 	.title {
@@ -105,8 +118,10 @@
 		display: block;
 	}
 	nav {
+		padding: 1rem;
 		flex-direction: column;
 		height: 170px;
+		align-items: unset;
 	}
 
 	nav .title {
@@ -117,17 +132,8 @@
 		padding-top: 1rem;
 	}
 
-	nav {
-		padding: 2rem 1rem;
-	}
 	section {
 		padding: 1rem 1rem;
-	}
-	nav .navbar .select {
-		box-sizing: border-box;
-		padding-top: 1rem;
-		height: 54px;
-		max-width: 485px;
 	}
 
 	.content {
