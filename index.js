@@ -542,9 +542,9 @@ function TNEducation() {
             })
             .done(() => {
                 $.i18n({
-                    locale: lang
+                    locale: locale
                 });
-                localStorage.setItem("locale", lang);
+                localStorage.setItem("locale", locale);
             });
     };
 
